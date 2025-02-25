@@ -1,12 +1,29 @@
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Calculator, Lightbulb, Palette, Home, MessageCircle, Calendar, User } from "lucide-react"
+import CourseCard from "./course-card"
 
 interface DashboardScreenProps {
   onCourseClick: () => void
 }
 
 export default function DashboardScreen({ onCourseClick }: DashboardScreenProps) {
+  const [courses, setCourses] = useState<Array<{ title: string; thumbnailUrl: string }>>([
+    { 
+      title: "Drawing practice", 
+      thumbnailUrl: "" 
+    },
+    { 
+      title: "Learning to count", 
+      thumbnailUrl: "" 
+    }
+  ]);
+
+  const handleCreateCourse = (title: string, thumbnailUrl: string) => {
+    setCourses(prev => [...prev, { title, thumbnailUrl }]);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Status Bar */}
@@ -73,17 +90,19 @@ export default function DashboardScreen({ onCourseClick }: DashboardScreenProps)
           </Button>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <Card
-            className="bg-muted p-4 rounded-xl cursor-pointer hover:bg-muted/80 transition-colors"
-            onClick={onCourseClick}
-          >
-            <div className="h-32 bg-secondary/10 rounded-lg mb-4"></div>
-            <h3 className="font-semibold">Drawing practice</h3>
-          </Card>
-          <Card className="bg-muted p-4 rounded-xl">
-            <div className="h-32 bg-primary/10 rounded-lg mb-4"></div>
-            <h3 className="font-semibold">Learning to count</h3>
-          </Card>
+          {courses.map((course, index) => (
+            <CourseCard
+              key={index}
+              title={course.title}
+              thumbnailUrl={course.thumbnailUrl}
+              onClick={onCourseClick}
+            />
+          ))}
+          
+          <CourseCard
+            isAddCard={true}
+            onCreateCourse={handleCreateCourse}
+          />
         </div>
       </div>
 
