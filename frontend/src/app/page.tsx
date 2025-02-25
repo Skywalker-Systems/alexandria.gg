@@ -1,12 +1,16 @@
-import ContentGallery from "@/components/content-gallery";
-import { MainURLInput } from "@/components/main-input";
+"use client"
+
+// import ContentGallery from "@/components/content-gallery";
+// import { MainURLInput } from "@/components/main-input";
+import WelcomeScreen from "@/components/welcome-screen";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="w-full max-w-md mx-auto h-screen overflow-hidden">
       <main className="">
-        <MainURLInput />
-        <ContentGallery />
+        <WelcomeScreen onGetStarted={() => {}} />
+        {/* <MainURLInput />
+        <ContentGallery /> */}
       </main>
     </div>
   );
