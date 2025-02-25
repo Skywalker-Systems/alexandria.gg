@@ -26,7 +26,7 @@ export default function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
         <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
           <span className="text-primary-foreground font-bold">E</span>
         </div>
-        <span className="text-xl font-semibold">Edulite</span>
+        <span className="text-xl font-semibold">Andri.gg</span>
       </div>
 
       {/* Main Content */}
