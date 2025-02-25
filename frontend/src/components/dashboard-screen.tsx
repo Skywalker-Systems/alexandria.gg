@@ -3,27 +3,14 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Calculator, Lightbulb, Palette, Home, MessageCircle, Calendar, User } from "lucide-react"
 import CourseCard from "./course-card"
+import { CourseData } from "./create-course-modal"
 
 interface DashboardScreenProps {
-  onCourseClick: () => void
+  courses: CourseData[];
+  onCreateCourse: (courseData: CourseData) => void;
 }
 
-export default function DashboardScreen({ onCourseClick }: DashboardScreenProps) {
-  const [courses, setCourses] = useState<Array<{ title: string; thumbnailUrl: string }>>([
-    { 
-      title: "Drawing practice", 
-      thumbnailUrl: "" 
-    },
-    { 
-      title: "Learning to count", 
-      thumbnailUrl: "" 
-    }
-  ]);
-
-  const handleCreateCourse = (title: string, thumbnailUrl: string) => {
-    setCourses(prev => [...prev, { title, thumbnailUrl }]);
-  };
-
+export default function DashboardScreen({ courses, onCreateCourse }: DashboardScreenProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Status Bar */}
@@ -82,26 +69,26 @@ export default function DashboardScreen({ onCourseClick }: DashboardScreenProps)
           </div>
         </div>
 
-        {/* New Courses */}
+        {/* Courses */}
         <div className="mb-4 flex justify-between items-center">
-          <h2 className="text-xl font-bold">New course</h2>
-          <Button variant="link" className="text-sm text-primary p-0">
-            See more
-          </Button>
+          <h2 className="text-xl font-bold">My Courses</h2>
+          {courses.length > 0 && (
+            <Button variant="link" className="text-sm text-primary p-0">
+              See all
+            </Button>
+          )}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {courses.map((course, index) => (
+          {courses.map((course) => (
             <CourseCard
-              key={index}
-              title={course.title}
-              thumbnailUrl={course.thumbnailUrl}
-              onClick={onCourseClick}
+              key={course.id}
+              course={course}
             />
           ))}
           
           <CourseCard
             isAddCard={true}
-            onCreateCourse={handleCreateCourse}
+            onCreateCourse={onCreateCourse}
           />
         </div>
       </div>

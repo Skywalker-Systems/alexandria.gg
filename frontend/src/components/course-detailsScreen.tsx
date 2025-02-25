@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ArrowLeft, Bookmark, Play, Lock } from "lucide-react"
+import { CourseData } from "./create-course-modal"
 
 interface CourseDetailScreenProps {
-  onBack: () => void
+  course: CourseData;
+  onBack: () => void;
 }
 
-export default function CourseDetailScreen({ onBack }: CourseDetailScreenProps) {
+export default function CourseDetailScreen({ course, onBack }: CourseDetailScreenProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Status Bar */}
@@ -31,9 +33,24 @@ export default function CourseDetailScreen({ onBack }: CourseDetailScreenProps) 
         </Button>
       </div>
 
-      {/* Course Title */}
+      {/* Course Title and Thumbnail */}
       <div className="px-4 mb-8">
-        <h1 className="text-3xl font-bold mb-2">Drawing practice</h1>
+        <div 
+          className="w-full h-40 rounded-xl mb-4 bg-cover bg-center"
+          style={{ backgroundImage: `url(${course.thumbnailUrl})` }}
+        />
+        <h1 className="text-3xl font-bold mb-2">{course.title}</h1>
+        
+        {/* Tags */}
+        {course.tags && course.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {course.tags.slice(0, 5).map((tag, index) => (
+              <span key={index} className="px-2 py-1 text-xs rounded-full bg-secondary/10 text-secondary">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Tabs */}
@@ -47,6 +64,13 @@ export default function CourseDetailScreen({ onBack }: CourseDetailScreenProps) 
             Playlist
           </Button>
         </div>
+      </div>
+
+      {/* Course Description */}
+      <div className="px-4 mb-6">
+        <p className="text-sm text-muted-foreground">
+          {course.description || "No description available."}
+        </p>
       </div>
 
       {/* Lesson List */}
@@ -87,7 +111,7 @@ export default function CourseDetailScreen({ onBack }: CourseDetailScreenProps) 
       {/* Start Learning Button */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
         <Button className="w-full h-12 text-lg bg-accent text-accent-foreground hover:bg-accent/90">
-          Start learning
+          Watch on YouTube
         </Button>
       </div>
     </div>

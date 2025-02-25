@@ -2,35 +2,34 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "./ui/card";
 import CreateCourseModal from "./create-course-modal";
+import { CourseData } from "./create-course-modal";
+import { useRouter } from "next/navigation";
 
 interface CourseCardProps {
-  title?: string;
-  thumbnailUrl?: string;
+  course?: CourseData;
   isAddCard?: boolean;
-  onClick?: () => void;
-  onCreateCourse?: (title: string, thumbnailUrl: string) => void;
+  onCreateCourse?: (courseData: CourseData) => void;
 }
 
 export default function CourseCard({ 
-  title, 
-  thumbnailUrl, 
+  course, 
   isAddCard = false, 
-  onClick,
   onCreateCourse 
 }: CourseCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   const handleCardClick = () => {
     if (isAddCard) {
       setIsModalOpen(true);
-    } else if (onClick) {
-      onClick();
+    } else if (course) {
+      router.push(`/course/${course.id}`);
     }
   };
 
-  const handleCreateCourse = (title: string, thumbnailUrl: string) => {
+  const handleCreateCourse = (courseData: CourseData) => {
     if (onCreateCourse) {
-      onCreateCourse(title, thumbnailUrl);
+      onCreateCourse(courseData);
     }
   };
 
@@ -59,15 +58,15 @@ export default function CourseCard({
   return (
     <Card
       className="bg-muted p-4 rounded-xl cursor-pointer hover:bg-muted/80 transition-colors"
-      onClick={onClick}
+      onClick={handleCardClick}
     >
       <div 
         className="h-32 rounded-lg mb-4 bg-cover bg-center"
-        style={{ backgroundImage: thumbnailUrl ? `url(${thumbnailUrl})` : "none" }}
+        style={{ backgroundImage: course?.thumbnailUrl ? `url(${course.thumbnailUrl})` : "none" }}
       >
-        {!thumbnailUrl && <div className="h-full w-full bg-primary/10 rounded-lg"></div>}
+        {!course?.thumbnailUrl && <div className="h-full w-full bg-primary/10 rounded-lg"></div>}
       </div>
-      <h3 className="font-semibold">{title}</h3>
+      <h3 className="font-semibold">{course?.title}</h3>
     </Card>
   );
 }
